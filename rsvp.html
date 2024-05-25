@@ -1,0 +1,182 @@
+<!-- HTML Form Content -->
+<div id="rsvp-form-container">
+    <div class="form-container">
+        <form id="rsvp-form">
+            <input type="hidden" id="EVENT_TAG" name="EVENT_TAG" value="">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="first-name" class="required">First Name</label>
+                    <input type="text" id="first-name" name="first-name" required>
+                </div>
+                <div class="form-group">
+                    <label for="last-name" class="required">Last Name</label>
+                    <input type="text" id="last-name" name="last-name" required>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="email" class="required">Email</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="adults" class="required">How many adults?</label>
+                <input type="number" id="adults" name="adults" value="1" min="1" required>
+            </div>
+            <div class="form-group-checkbox">
+                <input type="checkbox" id="bringing-children" name="bringing-children">
+                <label for="bringing-children">I am bringing children 👶</label>
+            </div>
+            <div id="children-container" class="form-group" style="display: none;">
+                <label for="children" style="margin-bottom: 5px;">Number of Children</label>
+                <input type="number" id="children" name="children" min="0" max="9" style="width: 50px;">
+            </div>
+            <div class="form-group-checkbox">
+                <input type="checkbox" id="volunteer-opportunities" name="volunteer-opportunities">
+                <label for="volunteer-opportunities">Email me about volunteer opportunities 🤝</label>
+            </div>
+            <div class="form-submit">
+                <button type="submit">RSVP</button>
+            </div>
+        </form>
+    </div>
+    <div class="message-container" style="display: none;">
+        <p>We look forward to spending time with you, and encourage you to invite your friends, family, & community members to join. Our efforts are only possible with your support. Please visit <a href="https://sabeelnj.org/sustain">sabeelnj.org/sustain</a> to help us continue paving the way to a stronger community!</p>
+    </div>
+</div>
+
+<!-- CSS Styles -->
+<style>
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        margin: 0;
+        padding: 20px;
+        box-sizing: border-box;
+        transition: opacity 0.5s ease-in-out;
+    }
+    form {
+        background-color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        box-sizing: border-box;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+    }
+    .form-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .form-row .form-group {
+        flex: 1;
+        min-width: 45%;
+        margin-right: 10px;
+    }
+    .form-row .form-group:last-child {
+        margin-right: 0;
+    }
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="number"] {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+    .form-group-checkbox {
+        display: flex;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+    .form-group-checkbox input[type="checkbox"] {
+        margin-right: 10px;
+        transform: scale(1.2);
+    }
+    .form-group-checkbox label {
+        display: flex;
+        align-items: center;
+    }
+    #children-container {
+        margin-left: 30px;
+        width: fit-content;
+    }
+    .form-submit {
+        text-align: center;
+    }
+    .form-submit button {
+        background-color: #e0c3af;
+        border: none;
+        padding: 12px 30px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        display: block;
+        margin: 0 auto;
+    }
+    .form-submit button:hover {
+        background-color: #d4b19e;
+    }
+    .required::after {
+        content: " *";
+        color: red;
+    }
+    @media (max-width: 600px) {
+        .form-row .form-group {
+            min-width: 100%;
+            margin-right: 0;
+        }
+    }
+    .message-container {
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
+    }
+    .message-container.show {
+        opacity: 1;
+    }
+</style>
+
+<!-- JavaScript -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('bringing-children').addEventListener('change', function() {
+            var childrenContainer = document.getElementById('children-container');
+            var childrenInput = document.getElementById('children');
+            if (this.checked) {
+                childrenContainer.style.display = 'block';
+                childrenInput.value = '1';
+                childrenInput.min = '1';
+            } else {
+                childrenContainer.style.display = 'none';
+                childrenInput.value = '';
+                childrenInput.min = '0';
+            }
+        });
+
+        document.getElementById('rsvp-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            // Hide the form container
+            var formContainer = document.querySelector('.form-container');
+            formContainer.style.opacity = '0';
+
+            // Show the message container after a delay
+            var messageContainer = document.querySelector('.message-container');
+            setTimeout(function() {
+                formContainer.style.display = 'none';
+                messageContainer.style.display = 'block';
+                setTimeout(function() {
+                    messageContainer.classList.add('show');
+                }, 50);
+            }, 500);
+        });
+    });
+</script>
